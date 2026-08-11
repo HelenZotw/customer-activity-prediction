@@ -1,123 +1,87 @@
-# Прогнозирование снижения активности клиентов интернет-магазина
+# Customer Activity Prediction
 
-## Описание проекта
+Machine learning project for predicting customer activity decline in an e-commerce platform.
 
-Интернет-магазин «В один клик» заметил снижение активности постоянных покупателей. Поскольку привлечение новых клиентов становится менее эффективным, компания планирует сосредоточиться на удержании существующей клиентской базы с помощью персонализированных предложений.
+## Project Overview
 
-Цель проекта — построить модель машинного обучения, которая прогнозирует вероятность снижения покупательской активности клиента в ближайшие три месяца, а затем использовать результаты модели для сегментации клиентов и подготовки маркетинговых рекомендаций.
+Customer retention is a key objective for online businesses, as retaining existing customers is generally more cost-effective than acquiring new ones. This project focuses on predicting customer activity decline to help identify users who may require personalized retention strategies.
 
-## Данные
+## Objective
 
-В проекте использованы четыре таблицы:
+Develop and compare machine learning models to predict whether a customer's purchasing activity will decrease over the next three months based on behavioral, transactional, and marketing data.
 
-* `market_file.csv` — сведения о покупательском поведении, взаимодействии с сайтом и маркетинговых коммуникациях;
-* `market_money.csv` — данные о выручке клиентов по месяцам;
-* `market_time.csv` — данные о времени, проведенном клиентами на сайте;
-* `money.csv` — данные о прибыли клиентов, используемые для сегментации.
+## Dataset
 
-Основная таблица содержит 1300 наблюдений. Пропуски и полные дубликаты в исходных данных отсутствуют.
+The project uses an educational e-commerce dataset containing information about:
 
-## Этапы работы
+- customer purchasing behavior;
+- website activity;
+- marketing interactions;
+- revenue history;
+- customer profitability.
 
-1. Загрузка и проверка данных.
-2. Предобработка и приведение типов.
-3. Исследовательский анализ данных.
-4. Объединение таблиц и создание дополнительных признаков.
-5. Анализ взаимосвязей и проверка мультиколлинеарности.
-6. Подготовка признаков с помощью `Pipeline` и `ColumnTransformer`.
-7. Обучение и сравнение моделей классификации.
-8. Оценка лучшей модели на тестовой выборке.
-9. Интерпретация модели с помощью permutation importance и SHAP.
-10. Сегментация клиентов и подготовка бизнес-рекомендаций.
+**Note:** The original dataset is not included in this repository in accordance with the educational platform policy.
 
-## Использованные модели
+## Project Workflow
 
-В проекте были обучены и сравнены:
+- Data loading and validation
+- Data preprocessing
+- Exploratory Data Analysis (EDA)
+- Feature engineering
+- Model training and comparison
+- Hyperparameter tuning
+- Model evaluation
+- Feature importance analysis
+- Customer segmentation
+- Business recommendations
 
-* K-Nearest Neighbors;
-* Decision Tree;
-* Logistic Regression;
-* Support Vector Classifier;
-* Gradient Boosting.
+## Models
 
-Подбор гиперпараметров проводился с помощью `GridSearchCV` и стратифицированной кросс-валидации. Основная метрика качества — ROC-AUC.
+The following classification models were evaluated:
 
-## Результат
+- K-Nearest Neighbors
+- Decision Tree
+- Logistic Regression
+- Support Vector Classifier (SVC)
+- Gradient Boosting
 
-Лучшей моделью стала `SVC` со следующими параметрами:
+Model selection was performed using **ROC-AUC** as the primary evaluation metric.
 
-```python
-C=0.5
-gamma='scale'
-```
+## Results
 
-Результат на тестовой выборке:
+| Metric | Value |
+|---------|------:|
+| Task | Binary Classification |
+| Best Model | Support Vector Classifier (SVC) |
+| ROC-AUC | **0.924** |
 
-* **ROC-AUC: 0,924**;
-* ROC-AUC константной модели: 0,500;
-* улучшение относительно константной модели: 0,424.
+The Support Vector Classifier demonstrated the best predictive performance and generalization on the test dataset.
 
-Модель показала способность хорошо разделять клиентов со стабильной и снижающейся активностью.
+## Key Findings
 
-## Основные факторы прогноза
+- Customer browsing behavior was one of the strongest predictors of future activity.
+- Website engagement metrics significantly influenced model performance.
+- Customer segmentation helped identify high-value users at risk of reduced activity.
+- Feature importance analysis improved model interpretability.
 
-По результатам permutation importance наиболее значимыми оказались:
+## Business Recommendations
 
-* количество просмотренных страниц за визит;
-* среднее количество просмотренных категорий;
-* время, проведенное на сайте;
-* доля покупок по акции;
-* показатели маркетинговой активности;
-* уровень и динамика выручки.
+The developed model can support customer retention strategies by identifying users with a high probability of reduced activity.
 
-Наиболее существенным фактором является глубина взаимодействия клиента с сайтом.
+Recommended actions include:
 
-## Бизнес-применение
+- personalized marketing campaigns;
+- targeted product recommendations;
+- loyalty program optimization;
+- proactive engagement with high-value customers.
 
-Модель может использоваться для раннего выявления клиентов с риском снижения активности.
+## Tech Stack
 
-Особое внимание рекомендуется уделять клиентам, которые одновременно:
-
-* имеют высокую вероятность снижения активности;
-* приносят компании высокую прибыль;
-* стали просматривать меньше страниц и товарных категорий;
-* сократили время взаимодействия с сайтом.
-
-Для таких клиентов можно формировать персональные подборки товаров, рекомендации по интересующим категориям и индивидуальные предложения.
-
-Результативность кампаний рекомендуется оценивать с помощью A/B-теста по показателям конверсии, удержания и выручки на клиента.
-
-## Стек технологий
-
-* Python
-* pandas
-* NumPy
-* matplotlib
-* seaborn
-* scikit-learn
-* SHAP
-* Phik
-* Jupyter Notebook
-
-## Структура репозитория
-
-```text
-customer-activity-prediction/
-├── README.md
-├── one-click.ipynb
-├── market_file.csv
-├── market_money.csv
-├── market_time.csv
-├── money.csv
-└── .gitignore
-```
-
-## Запуск проекта
-
-Для запуска проекта необходимо установить используемые библиотеки и открыть ноутбук:
-
-```bash
-jupyter notebook one-click.ipynb
-```
-
-Исследование выполнено в рамках программы профессиональной переподготовки «Специалист по Data Science. Расширенный» Яндекс Практикума.
+- Python
+- pandas
+- NumPy
+- matplotlib
+- seaborn
+- scikit-learn
+- SHAP
+- Phik
